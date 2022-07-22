@@ -1,0 +1,30 @@
+# This is an exploratory analysis of sales data from a store.
+# First, I get to know the data.
+# Then, I start to ask relevant questions and explore.
+
+# 1. What is the total sales made by each agent?
+
+SELECT emp.FirstName, emp.LastName,
+ROUND(SUM(inv.total), 2) as 'Total Sales'
+FROM chinook.employees emp
+
+JOIN chinook.customers cust
+ON cust.SupportRepId = emp.EmployeeId
+
+JOIN chinook.invoices inv
+ON inv.InvoiceId = cust.CustomerId
+
+WHERE emp.Title = 'Sales Support Agent'
+GROUP BY emp.FirstName;
+
+# 2. What were the sales totals for 2009?
+
+SELECT SUM(Total) as '2009 Sales Total'
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
+
+# 3. What are the total number of customers from each country?
+
+SELECT COUNT(CustomerID), Country
+FROM chinook.customers
+GROUP BY Country;
