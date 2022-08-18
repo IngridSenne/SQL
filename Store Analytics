@@ -1,0 +1,186 @@
+##Where did most website visitors come from?
+
+SELECT referrer_source,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY referrer_source;
+
+##What page did they initially land on?
+
+SELECT page_path,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY page_path
+ORDER BY COUNT(*) DESC;
+
+##What type of page did they first land on?
+
+SELECT page_type,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY page_type
+ORDER BY COUNT(*) DESC;
+
+##What was the average bounce rate?
+
+SELECT AVG(total_bounce_rate) AS average_bounce_rate
+FROM Store_Analytics.Sessions_Referrer;
+
+##What was the average bounce rate per page path?
+
+SELECT 
+    AVG(total_bounce_rate) AS average_bounce_rate,
+    page_path
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY page_path
+ORDER BY average_bounce_rate DESC;
+
+##What is the conversion rate for page type?
+
+SELECT page_type, AVG(total_conversion) AS average_conversion_rate
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY page_type
+ORDER BY average_conversion_rate;
+
+##How long do viewers typically spend on the website on average?
+
+SELECT AVG(avg_duration) AS average_duration
+FROM Store_Analytics.Sessions_Referrer;
+
+##Which coutries are most of the website sessions originating from?
+
+SELECT location_country,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY location_country
+ORDER BY COUNT(*) DESC;
+
+##Which Countries are most of the sales originating from?
+
+SELECT SUM(total_orders_placed), location_country
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY location_country
+ORDER BY SUM(total_orders_placed) DESC;
+
+##Which States are most of the orders originating from?
+
+SELECT SUM(total_orders_placed) AS total_orders, location_region
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY location_region
+ORDER BY total_orders DESC;
+
+##What are the total orders placed, conversion, checkouts, carts? 
+
+SELECT SUM(total_orders_placed),
+SUM(total_conversion),
+SUM(total_checkouts),
+SUM(total_carts)
+FROM Store_Analytics.Sessions_Referrer;
+
+##What are the website visits by source?
+
+SELECT utm_campaign_content,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_content
+ORDER BY COUNT(*) DESC;
+
+SELECT utm_campaign_medium,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_medium
+ORDER BY COUNT(*) DESC;
+
+SELECT utm_campaign_name,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_name
+ORDER BY COUNT(*) DESC;
+
+SELECT utm_campaign_source,
+COUNT(*)
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_source
+ORDER BY COUNT(*) DESC;
+
+##What are the orders by source?
+
+SELECT SUM(total_orders_placed) AS total_orders, utm_campaign_content
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_content
+ORDER BY total_orders DESC;
+
+SELECT SUM(total_orders_placed) AS total_orders, utm_campaign_medium
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_medium
+ORDER BY total_orders DESC;
+
+SELECT SUM(total_orders_placed) AS total_orders, utm_campaign_name
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_name
+ORDER BY total_orders DESC;
+
+SELECT SUM(total_orders_placed) AS total_orders, utm_campaign_source
+FROM Store_Analytics.Sessions_Referrer
+GROUP BY utm_campaign_source
+ORDER BY total_orders DESC;
+
+##What are the campaign sources for website traffic?
+
+SELECT utm_campaign_source,
+COUNT(*)
+FROM Store_Analytics.Sessions_Attributed_Marketing
+GROUP BY utm_campaign_source
+ORDER BY COUNT(*) DESC;
+
+##What are the campaign sources for website sales?
+
+SELECT utm_campaign_source,
+SUM(total_checkouts) AS total_checkouts
+FROM Store_Analytics.Sessions_Attributed_Marketing
+GROUP BY utm_campaign_source
+ORDER BY total_checkouts DESC;
+
+##What are the campaign names for website traffic?
+
+SELECT utm_campaign_name,
+COUNT(*)
+FROM Store_Analytics.Sessions_Attributed_Marketing
+GROUP BY utm_campaign_name
+ORDER BY COUNT(*) DESC;
+
+##What are the campaign names for website sales?
+
+SELECT utm_campaign_name,
+SUM(total_checkouts) AS total_checkouts
+FROM Store_Analytics.Sessions_Attributed_Marketing
+GROUP BY utm_campaign_name
+ORDER BY total_checkouts DESC;
+
+##What are the campaign mediums for website traffic?
+
+SELECT utm_campaign_medium,
+COUNT(*)
+FROM Store_Analytics.Sessions_Attributed_Marketing
+GROUP BY utm_campaign_medium
+ORDER BY COUNT(*) DESC;
+
+##What are the campaign mediums for website sales?
+
+SELECT utm_campaign_medium,
+SUM(total_checkouts) AS total_checkouts
+FROM Store_Analytics.Sessions_Attributed_Marketing
+GROUP BY utm_campaign_medium
+ORDER BY total_checkouts DESC;
+
+##Which products have sold the most?
+
+SELECT product_title, SUM(quantity_sold) AS total_sold
+FROM Store_Analytics.Sell_Through_By_Product
+GROUP BY product_title
+ORDER BY total_sold DESC;
+
+##What are the total amount of products sold?
+
+SELECT SUM(quantity_sold) as total_sold
+FROM Store_Analytics.Sell_Through_By_Product;
